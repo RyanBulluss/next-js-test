@@ -1,23 +1,16 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import Button from "./components/Button";
+import { allGames } from "./globalConstants";
+import Sidebar from "./components/Sidebar";
+import Main from "./pages/Main";
 
 export default function Home() {
-  const [message, setMessage] = useState("Loading...");
-  const [people, setPeople] = useState([]);
+  const [games, setGames] = useState(allGames);
+  const [currentGame, setCurrentGame] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/home")
-      .then(response => response.json())
-      .then(
-        data => {
-          setMessage(data.message);
-          setPeople(data.people);
-        }
-      );
-  }, []);
-
-  return <main className="bg-blue-500">
-    {message}
-    {people.map((p, idx) => <div key={idx}>{p}</div>)}
+  return <main className="flex min-h-[100vh]">
+      <Sidebar games={games} setCurrentGame={setCurrentGame} />
+      <Main currentGame={currentGame} setCurrentGame={setCurrentGame} />
     </main>;
 }
